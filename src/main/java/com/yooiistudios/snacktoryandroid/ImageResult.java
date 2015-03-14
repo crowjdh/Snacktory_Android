@@ -16,7 +16,6 @@ public class ImageResult {
     public int width;
     public String alt;
     public boolean noFollow;
-    public Element element;
 
     public ImageResult(String src, Integer weight, String title, int height, int width, String alt, boolean noFollow) {
         this.src = src;

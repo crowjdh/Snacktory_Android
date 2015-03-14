@@ -18,7 +18,6 @@ package com.yooiistudios.snacktoryandroid;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,7 +40,8 @@ public class JResult implements Serializable {
     private String dateString;
     private List<String> textList;
     private Collection<String> keywords;
-    private List<ImageResult> images = null;
+    private List<ImageResult> images;
+    private List<String> ogImages;
 
     public JResult() {
     }
@@ -188,8 +188,6 @@ public class JResult implements Serializable {
      * @return images list
      */
     public List<ImageResult> getImages() {
-        if (images == null)
-            return Collections.emptyList();
         return images;
     }
 
@@ -197,8 +195,6 @@ public class JResult implements Serializable {
      * @return images count
      */
     public int getImagesCount() {
-        if (images == null)
-            return 0;
         return images.size();
     }
 
@@ -207,6 +203,14 @@ public class JResult implements Serializable {
      */
     public void setImages(List<ImageResult> images) {
         this.images = images;
+    }
+
+    public List<String> getOgImages() {
+        return ogImages;
+    }
+
+    public void setOgImages(List<String> ogImages) {
+        this.ogImages = ogImages;
     }
 
     @Override

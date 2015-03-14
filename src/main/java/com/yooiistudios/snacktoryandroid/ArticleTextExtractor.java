@@ -152,6 +152,9 @@ public class ArticleTextExtractor {
         }
 
         if (bestMatchElement != null) {
+            List<String> ogImages = determineOgImages(doc);
+            res.setOgImages(ogImages);
+
             List<ImageResult> images = new ArrayList<ImageResult>();
             Element imgEl = determineImageSource(bestMatchElement, images);
             if (imgEl != null) {
@@ -404,6 +407,59 @@ public class ArticleTextExtractor {
         if (style != null && !style.isEmpty() && NEGATIVE_STYLE.matcher(style).find())
             weight -= 50;
         return weight;
+    }
+
+//    private void asdf() {
+//
+//        // og:image
+//        Elements ogImgElements = doc.select("meta[property=og:image]");
+//
+//        String imgUrl = "";
+//
+//        if (ogImgElements.size() > 0) {
+//            imgUrl = ogImgElements.get(0).attr("content");
+//        } else {
+//            // 워드프레스처럼 entry-content 클래스를 쓰는 경우의 예외처리
+//            Elements elms = doc.getElementsByClass("entry-content");
+//
+//            if (elms.size() > 0) {
+//                Elements imgElms = elms.get(0).getElementsByTag("img");
+//
+//                if (imgElms.size() > 0) {
+//                    imgUrl = imgElms.get(0).attr("src");
+//                }
+//
+//            }
+//
+//            // TODO 기타 예외처리가 더 들어가야 할듯..
+//        }
+//    }
+
+    public List<String> determineOgImages(Document doc) {
+        final String TAG_OG_IMAGE = "meta[property=og:image]";
+
+        Elements els = doc.select(TAG_OG_IMAGE);
+        if (els.isEmpty()) {
+            els = doc.parent().select(TAG_OG_IMAGE);
+        }
+
+        ArrayList<String> ogImages = new ArrayList<>();
+        for (Element e : els) {
+            ogImages.add(e.attr("content"));
+        }
+        if (ogImages.size() == 0) {
+            Elements elms = doc.getElementsByClass("entry-content");
+            if (elms.size() > 0) {
+                Elements imgElms = elms.get(0).getElementsByTag("img");
+
+                if (imgElms.size() > 0) {
+                    String imgUrl = imgElms.get(0).attr("src");
+                    ogImages.add(imgUrl);
+                }
+
+            }
+        }
+        return ogImages;
     }
 
     public Element determineImageSource(Element el, List<ImageResult> images) {
