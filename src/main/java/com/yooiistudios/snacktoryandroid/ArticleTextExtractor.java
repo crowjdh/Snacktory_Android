@@ -1,5 +1,7 @@
 package com.yooiistudios.snacktoryandroid;
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -134,6 +136,8 @@ public class ArticleTextExtractor {
         res.setDescription(extractDescription(doc));
         res.setCanonicalUrl(extractCanonicalUrl(doc));
 
+//        Log.i("qwerasdfzxcv", "title: " + res.getTitle());
+
         // now remove the clutter
         prepareDocument(doc);
 
@@ -152,6 +156,8 @@ public class ArticleTextExtractor {
         }
 
         if (bestMatchElement != null) {
+//            Log.i("qwerasdfzxcv", "bestMatchElement class: " + bestMatchElement.className());
+//            Log.i("qwerasdfzxcv", "bestMatchElement id: " + bestMatchElement.id());
             List<String> ogImages = determineOgImages(doc);
             res.setOgImages(ogImages);
 
@@ -385,27 +391,43 @@ public class ArticleTextExtractor {
 
     private int calcWeight(Element e) {
         int weight = 0;
-        if (POSITIVE.matcher(e.className()).find())
+        if (POSITIVE.matcher(e.className()).find()) {
+//            Log.i("qwerasdfzxcv", "POSITIVE. +35");
+//            Log.i("qwerasdfzxcv", "e.className(): " + e.className());
             weight += 35;
+        }
 
-        if (POSITIVE.matcher(e.id()).find())
+        if (POSITIVE.matcher(e.id()).find()) {
+//            Log.i("qwerasdfzxcv", "POSITIVE. +40");
+//            Log.i("qwerasdfzxcv", "e.id(): " + e.id());
             weight += 40;
+        }
 
-        if (UNLIKELY.matcher(e.className()).find())
+        if (UNLIKELY.matcher(e.className()).find()) {
+//            Log.i("qwerasdfzxcv", "UNLIKELY. -20");
             weight -= 20;
+        }
 
-        if (UNLIKELY.matcher(e.id()).find())
+        if (UNLIKELY.matcher(e.id()).find()) {
+//            Log.i("qwerasdfzxcv", "UNLIKELY. -20");
             weight -= 20;
+        }
 
-        if (NEGATIVE.matcher(e.className()).find())
+        if (NEGATIVE.matcher(e.className()).find()) {
+//            Log.i("qwerasdfzxcv", "NEGATIVE. -50");
             weight -= 50;
+        }
 
-        if (NEGATIVE.matcher(e.id()).find())
+        if (NEGATIVE.matcher(e.id()).find()) {
+//            Log.i("qwerasdfzxcv", "NEGATIVE. -50");
             weight -= 50;
+        }
 
         String style = e.attr("style");
-        if (style != null && !style.isEmpty() && NEGATIVE_STYLE.matcher(style).find())
+        if (style != null && !style.isEmpty() && NEGATIVE_STYLE.matcher(style).find()) {
             weight -= 50;
+//            Log.i("qwerasdfzxcv", "style. -50");
+        }
         return weight;
     }
 
