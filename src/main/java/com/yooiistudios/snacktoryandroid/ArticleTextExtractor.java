@@ -136,8 +136,6 @@ public class ArticleTextExtractor {
         res.setDescription(extractDescription(doc));
         res.setCanonicalUrl(extractCanonicalUrl(doc));
 
-//        Log.i("qwerasdfzxcv", "title: " + res.getTitle());
-
         // now remove the clutter
         prepareDocument(doc);
 
@@ -156,8 +154,6 @@ public class ArticleTextExtractor {
         }
 
         if (bestMatchElement != null) {
-//            Log.i("qwerasdfzxcv", "bestMatchElement class: " + bestMatchElement.className());
-//            Log.i("qwerasdfzxcv", "bestMatchElement id: " + bestMatchElement.id());
             List<String> ogImages = determineOgImages(doc);
             res.setOgImages(ogImages);
 
@@ -174,6 +170,15 @@ public class ArticleTextExtractor {
             // clean before grabbing text
             String text = formatter.getFormattedText(bestMatchElement);
             text = removeTitleFromText(text, res.getTitle());
+//
+//            String message = new StringBuilder()
+//                    .append("title: ").append(res.getTitle()).append("\n")
+//                    .append("class: ").append(bestMatchElement.className()).append("\n")
+//                    .append("id: ").append(bestMatchElement.id()).append("\n")
+//                    .append("weight: ").append(maxWeight).append("\n")
+//                    .append("text: ").append(text).append("\n")
+//                    .toString();
+//            Log.i("qwerasdfzxcv", message);
             // this fails for short facebook post and probably tweets: text.length() > res.getDescription().length()
             if (text.length() > res.getTitle().length()) {
                 res.setText(text);
