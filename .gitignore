@@ -1,1 +1,45 @@
-/build
+# http://stackoverflow.com/questions/16736856/what-should-be-in-my-gitignore-for-an-android-studio-project
+# 에서 참고함
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+
+# Android Studio
+.idea/
+.idea
+/*/.idea/
+.gradle
+/*/local.properties
+/*/out
+/*/*/build/
+/*/build/
+build
+/*/*/production/
+/*/production/
+*.iml
+*.iws
+*.ipr
+*~
+*.swp
+class_files.txt
+mapping.txt
+seeds.txt
+unused.txt
